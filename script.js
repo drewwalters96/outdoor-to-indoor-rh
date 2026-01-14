@@ -369,7 +369,6 @@ function updateResults() {
     
     document.getElementById('outdoorTemp').textContent = outdoorDisplayTemp;
     document.getElementById('outdoorHumidity').textContent = `${humidity}%`;
-    document.getElementById('conditions').textContent = getWeatherDescription(weatherCode);
 
     // Calculate indoor RH
     const indoorRH = calculateIndoorRH(outdoorTempC, humidity, targetTempC);
