@@ -11,6 +11,8 @@ let currentWeatherData = null;
 const fahrenheitBtn = document.getElementById('fahrenheitBtn');
 const celsiusBtn = document.getElementById('celsiusBtn');
 const useLocationBtn = document.getElementById('useLocationBtn');
+const enterCityBtn = document.getElementById('enterCityBtn');
+const citySearchGroup = document.getElementById('citySearchGroup');
 const zipInput = document.getElementById('zipInput');
 const useZipBtn = document.getElementById('useZipBtn');
 const locationDisplay = document.getElementById('locationDisplay');
@@ -24,7 +26,8 @@ const error = document.getElementById('error');
 // Event Listeners
 fahrenheitBtn.addEventListener('click', () => handleUnitToggle(false));
 celsiusBtn.addEventListener('click', () => handleUnitToggle(true));
-useLocationBtn.addEventListener('click', handleUseLocation);
+useLocationBtn.addEventListener('click', handleUseLocationClick);
+enterCityBtn.addEventListener('click', handleEnterCityClick);
 useZipBtn.addEventListener('click', handleUseZip);
 zipInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleUseZip();
@@ -129,6 +132,30 @@ function handleSliderChange() {
 }
 
 // Location Handlers
+function handleUseLocationClick() {
+    // Toggle active state
+    useLocationBtn.classList.add('active');
+    enterCityBtn.classList.remove('active');
+    
+    // Hide city search inputs
+    citySearchGroup.style.display = 'none';
+    
+    // Trigger geolocation
+    handleUseLocation();
+}
+
+function handleEnterCityClick() {
+    // Toggle active state
+    enterCityBtn.classList.add('active');
+    useLocationBtn.classList.remove('active');
+    
+    // Show city search inputs
+    citySearchGroup.style.display = 'flex';
+    
+    // Focus on input
+    zipInput.focus();
+}
+
 async function handleUseLocation() {
     if (!navigator.geolocation) {
         showError('Geolocation is not supported by your browser');
@@ -145,7 +172,7 @@ async function handleUseLocation() {
         },
         (err) => {
             hideLoading();
-            showError('Unable to retrieve your location. Please use ZIP code instead.');
+            showError('Unable to retrieve your location. Please use city search instead.');
             console.error(err);
         }
     );

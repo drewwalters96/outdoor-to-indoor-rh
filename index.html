@@ -17,22 +17,24 @@
                 </header>
 
                 <!-- Location Section -->
-                <div class="section-content">
-                    <h2>Location</h2>
-                    <div class="location-controls">
-                        <button id="useLocationBtn" class="btn btn-primary">
+                <div class="section-content location-section">
+                    <div class="location-buttons">
+                        <button id="useLocationBtn" class="btn location-mode-btn active">
                             <span class="icon">📍</span>
                             Use My Location
                         </button>
-                        <div class="zip-input-group">
-                            <input 
-                                type="text" 
-                                id="zipInput" 
-                                placeholder="Enter city name"
-                                maxlength="50"
-                            >
-                            <button id="useZipBtn" class="btn btn-secondary">Get Weather</button>
-                        </div>
+                        <button id="enterCityBtn" class="btn location-mode-btn">
+                            Enter City
+                        </button>
+                    </div>
+                    <div id="citySearchGroup" class="city-search-group" style="display: none;">
+                        <input 
+                            type="text" 
+                            id="zipInput" 
+                            placeholder="Enter city name or ZIP code"
+                            maxlength="50"
+                        >
+                        <button id="useZipBtn" class="btn btn-primary">Get Weather</button>
                     </div>
                     <div id="locationDisplay" class="location-display"></div>
                 </div>
@@ -41,9 +43,15 @@
                 <div class="section-content">
                     <div class="temp-header">
                         <h2>Target Indoor Temperature</h2>
-                        <div class="unit-toggle">
-                            <button class="unit-btn active" data-unit="f" id="fahrenheitBtn">°F</button>
-                            <button class="unit-btn" data-unit="c" id="celsiusBtn">°C</button>
+                        <div class="temp-value-toggle">
+                            <div class="temp-display">
+                                <span id="targetTempValue">70</span>
+                                <span id="targetTempUnit">°F</span>
+                            </div>
+                            <div class="unit-toggle">
+                                <button class="unit-btn active" data-unit="f" id="fahrenheitBtn">°F</button>
+                                <button class="unit-btn" data-unit="c" id="celsiusBtn">°C</button>
+                            </div>
                         </div>
                     </div>
                     <div class="slider-container">
@@ -56,10 +64,6 @@
                             step="1"
                             class="temp-slider"
                         >
-                        <div class="slider-value">
-                            <span id="targetTempValue">70</span>
-                            <span id="targetTempUnit">°F</span>
-                        </div>
                     </div>
                 </div>
 
@@ -85,13 +89,6 @@
                     </div>
                     
                     <div id="recommendation" class="recommendation"></div>
-                    
-                    <div class="additional-info">
-                        <div class="info-item">
-                            <span class="info-label">Conditions:</span>
-                            <span id="conditions" class="info-value">--</span>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Loading and Error Messages -->
