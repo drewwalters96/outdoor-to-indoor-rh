@@ -180,7 +180,12 @@ async function reverseGeocode(lat, lon) {
         if (response.ok) {
             const data = await response.json();
             
-            // Build location string from available data
+            // Validate data object exists
+            if (!data || typeof data !== 'object') {
+                throw new Error('Invalid response data');
+            }
+            
+            // Build location string from available data with validation
             const parts = [];
             
             if (data.city || data.locality) {
@@ -189,8 +194,8 @@ async function reverseGeocode(lat, lon) {
             
             if (data.principalSubdivision) {
                 parts.push(data.principalSubdivision);
-            } else if (data.countryCode === 'US' && data.principalSubdivisionCode) {
-                // For US locations, use state code
+            } else if (data.countryCode === 'US' && typeof data.principalSubdivisionCode === 'string') {
+                // For US locations, use state code (safely handle string replacement)
                 parts.push(data.principalSubdivisionCode.replace('US-', ''));
             }
             
