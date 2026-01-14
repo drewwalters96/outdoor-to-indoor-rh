@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indoor Humidity Calculator - Can I Open My Windows?</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <main>
+            <!-- Single Unified Card -->
+            <section class="app-card">
+                <header class="app-header">
+                    <h1>🪟 Can I Open My Windows Today?</h1>
+                    <p class="subtitle">Find out if opening your windows will improve indoor humidity</p>
+                </header>
+
+                <!-- Location Section -->
+                <div class="section-content location-section">
+                    <div class="location-buttons">
+                        <button id="useLocationBtn" class="btn location-mode-btn active">
+                            <span class="icon">📍</span>
+                            Use My Location
+                        </button>
+                        <button id="enterCityBtn" class="btn location-mode-btn">
+                            Enter City
+                        </button>
+                    </div>
+                    <div id="citySearchGroup" class="city-search-group" style="display: none;">
+                        <input 
+                            type="text" 
+                            id="zipInput" 
+                            placeholder="Enter city name or ZIP code"
+                            maxlength="50"
+                        >
+                        <button id="useZipBtn" class="btn btn-primary">Get Weather</button>
+                    </div>
+                    <div id="locationDisplay" class="location-display"></div>
+                </div>
+
+                <!-- Target Temperature Section -->
+                <div class="section-content">
+                    <div class="temp-header">
+                        <h2>Target Indoor Temperature</h2>
+                        <div class="temp-value-toggle">
+                            <div class="temp-display">
+                                <span id="targetTempValue">70</span>
+                                <span id="targetTempUnit">°F</span>
+                            </div>
+                            <div class="unit-toggle">
+                                <button class="unit-btn active" data-unit="f" id="fahrenheitBtn">°F</button>
+                                <button class="unit-btn" data-unit="c" id="celsiusBtn">°C</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-container">
+                        <input 
+                            type="range" 
+                            id="targetTempSlider" 
+                            min="60" 
+                            max="80" 
+                            value="70" 
+                            step="1"
+                            class="temp-slider"
+                        >
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="section-content results-section" id="resultsSection" style="display: none;">
+                    <div class="outdoor-conditions">
+                        <div class="result-box">
+                            <div class="result-label">Outdoor Temperature</div>
+                            <div class="result-value" id="outdoorTemp">--</div>
+                        </div>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Outdoor Humidity</div>
+                            <div class="result-value" id="outdoorHumidity">--</div>
+                        </div>
+                    </div>
+                    
+                    <div class="indoor-prediction">
+                        <div class="prediction-label">Expected Indoor Humidity After Opening Windows</div>
+                        <div class="prediction-value">
+                            <span id="indoorRH">--</span><span class="unit">%</span>
+                        </div>
+                    </div>
+                    
+                    <div id="recommendation" class="recommendation"></div>
+                </div>
+
+                <!-- Loading and Error Messages -->
+                <div id="loading" class="message loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading weather data...</p>
+                </div>
+                <div id="error" class="message error" style="display: none;"></div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Weather data provided by Open-Meteo</p>
+            <p class="note">Note: This calculator provides estimates based on psychrometric principles. Actual indoor conditions may vary.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
