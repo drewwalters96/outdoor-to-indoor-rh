@@ -493,7 +493,7 @@ footer p {
     
     /* Header adjustments for mobile */
     .app-header {
-        padding: 20px 20px;
+        padding: 20px;
     }
     
     .app-header h1 {
@@ -527,10 +527,6 @@ footer p {
     .location-mode-btn {
         padding: 12px 16px;
         font-size: 0.95rem;
-    }
-    
-    .location-mode-btn .icon {
-        font-size: 1rem;
     }
     
     .card {
