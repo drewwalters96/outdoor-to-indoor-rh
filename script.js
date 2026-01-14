@@ -309,25 +309,28 @@ function updateResults() {
     // Convert temperatures
     const outdoorTempF = celsiusToFahrenheit(outdoorTempC);
 
-    // Display outdoor conditions
-    const displayTemp = isCelsius ? 
+    // Get target temperature
+    const targetTemp = parseInt(targetTempSlider.value);
+    const targetTempC = isCelsius ? targetTemp : fahrenheitToCelsius(targetTemp);
+    
+    // Display outdoor temperature
+    const outdoorDisplayTemp = isCelsius ? 
         `${outdoorTempC.toFixed(1)}°C` : 
         `${outdoorTempF.toFixed(1)}°F`;
     
-    document.getElementById('outdoorTemp').textContent = displayTemp;
+    // Display indoor target temperature
+    const indoorDisplayTemp = `${targetTemp}${isCelsius ? '°C' : '°F'}`;
+    
+    document.getElementById('outdoorTemp').textContent = outdoorDisplayTemp;
+    document.getElementById('indoorTempDisplay').textContent = indoorDisplayTemp;
     document.getElementById('outdoorHumidity').textContent = `${humidity}%`;
     document.getElementById('conditions').textContent = getWeatherDescription(weatherCode);
 
     // Calculate indoor RH
-    const targetTemp = parseInt(targetTempSlider.value);
-    const targetTempC = isCelsius ? targetTemp : fahrenheitToCelsius(targetTemp);
-    
     const indoorRH = calculateIndoorRH(outdoorTempC, humidity, targetTempC);
     
     // Display results
     document.getElementById('indoorRH').textContent = indoorRH.toFixed(1);
-    document.getElementById('targetTempDisplay').textContent = 
-        `${targetTemp}${isCelsius ? '°C' : '°F'}`;
 
     // Show recommendation
     updateRecommendation(indoorRH);
@@ -338,7 +341,6 @@ function updateResults() {
 
 function updateRecommendation(indoorRH) {
     const recommendationDiv = document.getElementById('recommendation');
-    const humidityValueDiv = document.querySelector('.humidity-value');
     let message = '';
     let className = '';
 
@@ -358,9 +360,6 @@ function updateRecommendation(indoorRH) {
 
     recommendationDiv.textContent = message;
     recommendationDiv.className = `recommendation ${className}`;
-    
-    // Add color-coding to the humidity value display
-    humidityValueDiv.className = `humidity-value humidity-${className}`;
 }
 
 // UI Helper Functions

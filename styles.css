@@ -15,23 +15,49 @@ body {
 .container {
     max-width: 600px;
     margin: 0 auto;
+    padding: 20px;
 }
 
-header {
-    text-align: center;
+/* Unified App Card */
+.app-card {
+    background: white;
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.app-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    margin-bottom: 30px;
+    padding: 40px 30px;
+    text-align: center;
 }
 
-header h1 {
-    font-size: 2.5rem;
+.app-header h1 {
+    font-size: 2rem;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.subtitle {
-    font-size: 1.1rem;
-    opacity: 0.9;
+.app-header .subtitle {
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+.section-content {
+    padding: 30px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.section-content:last-of-type {
+    border-bottom: none;
+}
+
+.section-content h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
 }
 
 /* Temperature Section Header */
@@ -87,26 +113,6 @@ header h1 {
 
 .toggle-label input[type="checkbox"]:checked ~ .toggle-text .celsius {
     color: #667eea;
-}
-
-.card {
-    background: white;
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.card h2 {
-    color: #667eea;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
-
-.card h3 {
-    color: #555;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
 }
 
 /* Location Section */
@@ -255,121 +261,73 @@ header h1 {
 }
 
 /* Results Section */
-.weather-info {
-    margin-bottom: 30px;
-}
-
-.weather-grid {
+.results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
+    margin-bottom: 20px;
 }
 
-.weather-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border-left: 4px solid #667eea;
+.result-box {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
 }
 
-.weather-item .label {
-    font-weight: 600;
+.result-label {
+    font-size: 0.9rem;
     color: #666;
+    margin-bottom: 10px;
+    font-weight: 500;
 }
 
-.weather-item .value {
+.result-value {
+    font-size: 2rem;
     font-weight: 700;
     color: #333;
 }
 
-.prediction {
-    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-    padding: 25px;
-    border-radius: 10px;
-}
-
-.prediction-result {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.humidity-value {
-    font-size: 4rem;
+.result-value-large {
+    font-size: 3rem;
     font-weight: 700;
-    color: #667eea;
-    line-height: 1;
-    transition: color 0.3s ease;
+    color: #000;
 }
 
-.humidity-value.humidity-good {
-    color: #28a745;
+.result-value-large::after {
+    content: '%';
+    font-size: 1.5rem;
+    margin-left: 5px;
 }
 
-.humidity-value.humidity-warning {
-    color: #ffc107;
-}
-
-.humidity-value.humidity-bad {
-    color: #dc3545;
-}
-
-.humidity-value .unit {
-    font-size: 2rem;
-}
-
-.humidity-scale {
-    margin: 20px auto;
-    max-width: 500px;
-}
-
-.scale-bar {
+.additional-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
     display: flex;
-    height: 30px;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.scale-range {
-    flex: 1;
-    transition: opacity 0.3s ease;
-}
-
-.scale-low {
-    background: linear-gradient(to right, #dc3545, #e85563);
-    flex: 0.3; /* 0-30% */
-}
-
-.scale-optimal {
-    background: linear-gradient(to right, #28a745, #48c765);
-    flex: 0.2; /* 30-50% */
-}
-
-.scale-acceptable {
-    background: linear-gradient(to right, #ffc107, #ffcd39);
-    flex: 0.1; /* 50-60% */
-}
-
-.scale-high {
-    background: linear-gradient(to right, #ff6b6b, #dc3545);
-    flex: 0.4; /* 60-100% */
-}
-
-.scale-labels {
+.info-item {
     display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
-    font-size: 0.85rem;
-    color: #666;
+    gap: 8px;
+    align-items: center;
+}
+
+.info-label {
     font-weight: 600;
+    color: #666;
+    font-size: 0.9rem;
 }
 
-.prediction-text {
-    margin-top: 15px;
-    color: #666;
-    font-size: 1.1rem;
+.info-value {
+    font-weight: 700;
+    color: #333;
+    font-size: 0.9rem;
 }
 
 .recommendation {
@@ -400,11 +358,10 @@ header h1 {
 
 /* Messages */
 .message {
-    background: white;
-    border-radius: 10px;
     padding: 20px;
-    margin-bottom: 20px;
+    margin: 0 30px 20px 30px;
     text-align: center;
+    border-radius: 8px;
 }
 
 .loading {
@@ -412,6 +369,7 @@ header h1 {
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    background: #f8f9fa;
 }
 
 .spinner {
@@ -437,8 +395,9 @@ header h1 {
 footer {
     text-align: center;
     color: white;
-    margin-top: 30px;
-    opacity: 0.9;
+    margin-top: 20px;
+    opacity: 0.85;
+    font-size: 0.85rem;
 }
 
 footer p {
@@ -446,7 +405,7 @@ footer p {
 }
 
 .note {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-style: italic;
 }
 

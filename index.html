@@ -8,123 +8,109 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🪟 Can I Open My Windows Today?</h1>
-            <p class="subtitle">Calculate indoor relative humidity based on outdoor conditions</p>
-        </header>
-
         <main>
-            <!-- Location Section -->
-            <section class="location-section card">
-                <h2>Location</h2>
-                <div class="location-controls">
-                    <button id="useLocationBtn" class="btn btn-primary">
-                        <span class="icon">📍</span>
-                        Use My Location
-                    </button>
-                    <div class="zip-input-group">
+            <!-- Single Unified Card -->
+            <section class="app-card">
+                <header class="app-header">
+                    <h1>🪟 Can I Open My Windows Today?</h1>
+                    <p class="subtitle">Find out if opening your windows will improve indoor humidity</p>
+                </header>
+
+                <!-- Location Section -->
+                <div class="section-content">
+                    <h2>Location</h2>
+                    <div class="location-controls">
+                        <button id="useLocationBtn" class="btn btn-primary">
+                            <span class="icon">📍</span>
+                            Use My Location
+                        </button>
+                        <div class="zip-input-group">
+                            <input 
+                                type="text" 
+                                id="zipInput" 
+                                placeholder="Enter city name"
+                                maxlength="50"
+                            >
+                            <button id="useZipBtn" class="btn btn-secondary">Get Weather</button>
+                        </div>
+                    </div>
+                    <div id="locationDisplay" class="location-display"></div>
+                </div>
+
+                <!-- Target Temperature Section -->
+                <div class="section-content">
+                    <div class="temp-header">
+                        <h2>Target Indoor Temperature</h2>
+                        <div class="unit-toggle">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="unitToggle">
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">
+                                    <span class="fahrenheit">°F</span>
+                                    <span class="celsius">°C</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="slider-container">
                         <input 
-                            type="text" 
-                            id="zipInput" 
-                            placeholder="Enter city name"
-                            maxlength="50"
+                            type="range" 
+                            id="targetTempSlider" 
+                            min="60" 
+                            max="80" 
+                            value="70" 
+                            step="1"
+                            class="temp-slider"
                         >
-                        <button id="useZipBtn" class="btn btn-secondary">Get Weather</button>
-                    </div>
-                </div>
-                <div id="locationDisplay" class="location-display"></div>
-            </section>
-
-            <!-- Target Temperature Section -->
-            <section class="temperature-section card">
-                <div class="temp-header">
-                    <h2>Target Indoor Temperature</h2>
-                    <div class="unit-toggle">
-                        <label class="toggle-label">
-                            <input type="checkbox" id="unitToggle">
-                            <span class="toggle-slider"></span>
-                            <span class="toggle-text">
-                                <span class="fahrenheit">°F</span>
-                                <span class="celsius">°C</span>
-                            </span>
-                        </label>
-                    </div>
-                </div>
-                <div class="slider-container">
-                    <input 
-                        type="range" 
-                        id="targetTempSlider" 
-                        min="60" 
-                        max="80" 
-                        value="70" 
-                        step="1"
-                        class="temp-slider"
-                    >
-                    <div class="slider-value">
-                        <span id="targetTempValue">70</span>
-                        <span id="targetTempUnit">°F</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Results Section -->
-            <section class="results-section card" id="resultsSection" style="display: none;">
-                <h2>Results</h2>
-                
-                <div class="weather-info">
-                    <h3>Current Outdoor Conditions</h3>
-                    <div class="weather-grid">
-                        <div class="weather-item">
-                            <span class="label">Temperature:</span>
-                            <span id="outdoorTemp" class="value">--</span>
-                        </div>
-                        <div class="weather-item">
-                            <span class="label">Humidity:</span>
-                            <span id="outdoorHumidity" class="value">--</span>
-                        </div>
-                        <div class="weather-item">
-                            <span class="label">Conditions:</span>
-                            <span id="conditions" class="value">--</span>
+                        <div class="slider-value">
+                            <span id="targetTempValue">70</span>
+                            <span id="targetTempUnit">°F</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="prediction">
-                    <h3>Indoor Humidity Prediction</h3>
-                    <div class="prediction-result">
-                        <div class="humidity-value">
-                            <span id="indoorRH">--</span>
-                            <span class="unit">%</span>
+                <!-- Results Section -->
+                <div class="section-content" id="resultsSection" style="display: none;">
+                    <h2>Results</h2>
+                    
+                    <div class="results-grid">
+                        <div class="result-box">
+                            <div class="result-label">Outdoor Temperature</div>
+                            <div class="result-value" id="outdoorTemp">--</div>
                         </div>
-                        <div class="humidity-scale">
-                            <div class="scale-bar">
-                                <div class="scale-range scale-low" title="Too Dry (<30%)"></div>
-                                <div class="scale-range scale-optimal" title="Optimal (30-50%)"></div>
-                                <div class="scale-range scale-acceptable" title="Acceptable (50-60%)"></div>
-                                <div class="scale-range scale-high" title="Too Humid (>60%)"></div>
-                            </div>
-                            <div class="scale-labels">
-                                <span>0%</span>
-                                <span>30%</span>
-                                <span>50%</span>
-                                <span>60%</span>
-                                <span>100%</span>
-                            </div>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Your Indoor Temperature</div>
+                            <div class="result-value" id="indoorTempDisplay">--</div>
                         </div>
-                        <p class="prediction-text">
-                            Expected relative humidity indoors at <span id="targetTempDisplay">70°F</span>
-                        </p>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Expected Indoor Humidity</div>
+                            <div class="result-value-large" id="indoorRH">--</div>
+                        </div>
                     </div>
+                    
                     <div id="recommendation" class="recommendation"></div>
+                    
+                    <div class="additional-info">
+                        <div class="info-item">
+                            <span class="info-label">Outdoor Humidity:</span>
+                            <span id="outdoorHumidity" class="info-value">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Conditions:</span>
+                            <span id="conditions" class="info-value">--</span>
+                        </div>
+                    </div>
                 </div>
-            </section>
 
-            <!-- Loading and Error Messages -->
-            <div id="loading" class="message loading" style="display: none;">
-                <div class="spinner"></div>
-                <p>Loading weather data...</p>
-            </div>
-            <div id="error" class="message error" style="display: none;"></div>
+                <!-- Loading and Error Messages -->
+                <div id="loading" class="message loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading weather data...</p>
+                </div>
+                <div id="error" class="message error" style="display: none;"></div>
+            </section>
         </main>
 
         <footer>
