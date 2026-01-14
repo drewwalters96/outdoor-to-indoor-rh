@@ -14,18 +14,6 @@
         </header>
 
         <main>
-            <!-- Temperature Unit Toggle -->
-            <div class="unit-toggle">
-                <label class="toggle-label">
-                    <input type="checkbox" id="unitToggle">
-                    <span class="toggle-slider"></span>
-                    <span class="toggle-text">
-                        <span class="fahrenheit">°F</span>
-                        <span class="celsius">°C</span>
-                    </span>
-                </label>
-            </div>
-
             <!-- Location Section -->
             <section class="location-section card">
                 <h2>Location</h2>
@@ -38,7 +26,7 @@
                         <input 
                             type="text" 
                             id="zipInput" 
-                            placeholder="Enter city or ZIP code"
+                            placeholder="Enter city name"
                             maxlength="50"
                         >
                         <button id="useZipBtn" class="btn btn-secondary">Get Weather</button>
@@ -49,7 +37,19 @@
 
             <!-- Target Temperature Section -->
             <section class="temperature-section card">
-                <h2>Target Indoor Temperature</h2>
+                <div class="temp-header">
+                    <h2>Target Indoor Temperature</h2>
+                    <div class="unit-toggle">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="unitToggle">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text">
+                                <span class="fahrenheit">°F</span>
+                                <span class="celsius">°C</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
                 <div class="slider-container">
                     <input 
                         type="range" 

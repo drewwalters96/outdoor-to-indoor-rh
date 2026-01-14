@@ -159,8 +159,8 @@ async function fetchWeatherByCoords(lat, lon) {
 
         const data = await response.json();
         
-        // Get location name using reverse geocoding
-        const locationName = await getLocationName(lat, lon);
+        // Display coordinates as location name
+        const locationName = `${lat.toFixed(4)}°, ${lon.toFixed(4)}°`;
         
         processWeatherData(data, locationName);
     } catch (err) {
@@ -172,13 +172,14 @@ async function fetchWeatherByCoords(lat, lon) {
 
 async function fetchWeatherByZip(zip) {
     try {
-        // First, geocode the ZIP code to get coordinates
+        // Use geocoding API to search for the location
+        // Works best with city names, but can handle some postal codes
         const geoResponse = await fetch(
-            `${GEOCODING_API_URL}?name=${zip}&count=1&language=en&format=json`
+            `${GEOCODING_API_URL}?name=${encodeURIComponent(zip)}&count=1&language=en&format=json`
         );
         
         if (!geoResponse.ok) {
-            throw new Error('Invalid ZIP code');
+            throw new Error('Location search failed');
         }
 
         const geoData = await geoResponse.json();
@@ -189,7 +190,7 @@ async function fetchWeatherByZip(zip) {
 
         const { latitude, longitude, name, admin1, country } = geoData.results[0];
         
-        // Then fetch weather data for those coordinates
+        // Fetch weather data for those coordinates
         const weatherResponse = await fetch(
             `${OPEN_METEO_BASE_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code&temperature_unit=celsius`
         );
@@ -204,31 +205,9 @@ async function fetchWeatherByZip(zip) {
         processWeatherData(weatherData, locationName);
     } catch (err) {
         hideLoading();
-        showError('Failed to fetch weather data. Please check the location and try again.');
+        showError('Location not found. Please try a different city name or use your current location.');
         console.error(err);
     }
-}
-
-async function getLocationName(lat, lon) {
-    try {
-        // Use reverse geocoding to get location name
-        const response = await fetch(
-            `https://geocoding-api.open-meteo.com/v1/search?latitude=${lat}&longitude=${lon}&count=1&language=en&format=json`
-        );
-        
-        if (response.ok) {
-            const data = await response.json();
-            if (data.results && data.results.length > 0) {
-                const { name, admin1, country } = data.results[0];
-                return `${name}${admin1 ? ', ' + admin1 : ''}${country ? ', ' + country : ''}`;
-            }
-        }
-    } catch (err) {
-        console.error('Failed to get location name:', err);
-    }
-    
-    // Fallback to coordinates
-    return `${lat.toFixed(2)}, ${lon.toFixed(2)}`;
 }
 
 function processWeatherData(data, locationName) {

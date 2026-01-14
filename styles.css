@@ -34,10 +34,21 @@ header h1 {
     opacity: 0.9;
 }
 
+/* Temperature Section Header */
+.temp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.temp-header h2 {
+    margin-bottom: 0;
+}
+
 .unit-toggle {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
 }
 
 .toggle-label {
