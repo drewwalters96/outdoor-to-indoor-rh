@@ -1,5 +1,7 @@
 # Outdoor to Indoor RH Calculator
 
+🌐 **[Try it now!](https://drewwalters96.github.io/outdoor-to-indoor-rh/)**
+
 Can I open my windows today? This simple web application helps you determine what the relative humidity will be like inside your home if you open the windows, based on current outdoor conditions.
 
 ## Features
