@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indoor Humidity Calculator - Can I Open My Windows?</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Can I Open My Windows Today?</h1>
+            <p class="subtitle">Calculate indoor relative humidity based on outdoor conditions</p>
+        </header>
+
+        <main>
+            <!-- Temperature Unit Toggle -->
+            <div class="unit-toggle">
+                <label class="toggle-label">
+                    <input type="checkbox" id="unitToggle">
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text">
+                        <span class="fahrenheit">°F</span>
+                        <span class="celsius">°C</span>
+                    </span>
+                </label>
+            </div>
+
+            <!-- Location Section -->
+            <section class="location-section card">
+                <h2>Location</h2>
+                <div class="location-controls">
+                    <button id="useLocationBtn" class="btn btn-primary">
+                        <span class="icon">📍</span>
+                        Use My Location
+                    </button>
+                    <div class="divider">or</div>
+                    <div class="zip-input-group">
+                        <input 
+                            type="text" 
+                            id="zipInput" 
+                            placeholder="Enter ZIP code"
+                            maxlength="10"
+                        >
+                        <button id="useZipBtn" class="btn btn-secondary">Get Weather</button>
+                    </div>
+                </div>
+                <div id="locationDisplay" class="location-display"></div>
+            </section>
+
+            <!-- Target Temperature Section -->
+            <section class="temperature-section card">
+                <h2>Target Indoor Temperature</h2>
+                <div class="slider-container">
+                    <input 
+                        type="range" 
+                        id="targetTempSlider" 
+                        min="60" 
+                        max="80" 
+                        value="70" 
+                        step="1"
+                        class="temp-slider"
+                    >
+                    <div class="slider-value">
+                        <span id="targetTempValue">70</span>
+                        <span id="targetTempUnit">°F</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section card" id="resultsSection" style="display: none;">
+                <h2>Results</h2>
+                
+                <div class="weather-info">
+                    <h3>Current Outdoor Conditions</h3>
+                    <div class="weather-grid">
+                        <div class="weather-item">
+                            <span class="label">Temperature:</span>
+                            <span id="outdoorTemp" class="value">--</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="label">Humidity:</span>
+                            <span id="outdoorHumidity" class="value">--</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="label">Conditions:</span>
+                            <span id="conditions" class="value">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prediction">
+                    <h3>Indoor Humidity Prediction</h3>
+                    <div class="prediction-result">
+                        <div class="humidity-value">
+                            <span id="indoorRH">--</span>
+                            <span class="unit">%</span>
+                        </div>
+                        <p class="prediction-text">
+                            Expected relative humidity indoors at <span id="targetTempDisplay">70°F</span>
+                        </p>
+                    </div>
+                    <div id="recommendation" class="recommendation"></div>
+                </div>
+            </section>
+
+            <!-- Loading and Error Messages -->
+            <div id="loading" class="message loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading weather data...</p>
+            </div>
+            <div id="error" class="message error" style="display: none;"></div>
+        </main>
+
+        <footer>
+            <p>Weather data provided by OpenWeatherMap</p>
+            <p class="note">Note: This calculator provides estimates based on psychrometric principles. Actual indoor conditions may vary.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
