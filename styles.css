@@ -347,12 +347,13 @@ body {
 }
 
 .indoor-prediction {
-    background: white;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 15px;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.prediction-container{
+    padding-left: 6px;
 }
 
 .prediction-label {
@@ -363,13 +364,13 @@ body {
 }
 
 .prediction-value {
-    font-size: 3rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #000;
 }
 
 .prediction-value .unit {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
 }
 
 .additional-info {
