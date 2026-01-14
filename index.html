@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Can I Open My Windows Today?</h1>
+            <h1>🪟 Can I Open My Windows Today?</h1>
             <p class="subtitle">Calculate indoor relative humidity based on outdoor conditions</p>
         </header>
 
@@ -34,13 +34,12 @@
                         <span class="icon">📍</span>
                         Use My Location
                     </button>
-                    <div class="divider">or</div>
                     <div class="zip-input-group">
                         <input 
                             type="text" 
                             id="zipInput" 
-                            placeholder="Enter ZIP code"
-                            maxlength="10"
+                            placeholder="Enter city or ZIP code"
+                            maxlength="50"
                         >
                         <button id="useZipBtn" class="btn btn-secondary">Get Weather</button>
                     </div>
@@ -97,6 +96,21 @@
                             <span id="indoorRH">--</span>
                             <span class="unit">%</span>
                         </div>
+                        <div class="humidity-scale">
+                            <div class="scale-bar">
+                                <div class="scale-range scale-low" title="Too Dry (<30%)"></div>
+                                <div class="scale-range scale-optimal" title="Optimal (30-50%)"></div>
+                                <div class="scale-range scale-acceptable" title="Acceptable (50-60%)"></div>
+                                <div class="scale-range scale-high" title="Too Humid (>60%)"></div>
+                            </div>
+                            <div class="scale-labels">
+                                <span>0%</span>
+                                <span>30%</span>
+                                <span>50%</span>
+                                <span>60%</span>
+                                <span>100%</span>
+                            </div>
+                        </div>
                         <p class="prediction-text">
                             Expected relative humidity indoors at <span id="targetTempDisplay">70°F</span>
                         </p>
@@ -114,7 +128,7 @@
         </main>
 
         <footer>
-            <p>Weather data provided by OpenWeatherMap</p>
+            <p>Weather data provided by Open-Meteo</p>
             <p class="note">Note: This calculator provides estimates based on psychrometric principles. Actual indoor conditions may vary.</p>
         </footer>
     </div>

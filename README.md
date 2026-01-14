@@ -7,37 +7,26 @@ Can I open my windows today? This simple web application helps you determine wha
 - 🌡️ **Temperature Control**: Adjust your target indoor temperature using an interactive slider (default: 70°F)
 - 🔄 **Unit Toggle**: Switch between Fahrenheit and Celsius
 - 📍 **Geolocation**: Use your current location automatically
-- 📮 **ZIP Code Support**: Enter a ZIP code as an alternative to geolocation
+- 📮 **Location Search**: Enter a city name or ZIP code as an alternative to geolocation
 - 💧 **Humidity Prediction**: Calculates expected indoor relative humidity using psychrometric principles
 - ✅ **Smart Recommendations**: Get clear advice on whether it's a good time to open windows
+- 🔓 **No API Key Required**: Uses Open-Meteo API - no registration or API key needed!
 
 ## Setup
 
-1. **Get a Free API Key**
-   - Visit [OpenWeatherMap.org](https://openweathermap.org/api)
-   - Sign up for a free account
-   - Generate an API key
+**No configuration required!** Simply open `index.html` in a web browser.
 
-2. **Configure the Application**
-   - Open `script.js`
-   - Replace `YOUR_API_KEY_HERE` with your actual API key:
-     ```javascript
-     const OPENWEATHER_API_KEY = 'your_actual_api_key';
-     ```
-
-3. **Run the Application**
-   - Open `index.html` in a web browser
-   - Or serve it using a local web server:
-     ```bash
-     python -m http.server 8000
-     # Then visit http://localhost:8000
-     ```
+For local development, you can use a simple HTTP server:
+```bash
+python -m http.server 8000
+# Then visit http://localhost:8000
+```
 
 ## How It Works
 
 The calculator uses psychrometric principles to determine indoor humidity:
 
-1. Gets current outdoor temperature and relative humidity from OpenWeatherMap API
+1. Gets current outdoor temperature and relative humidity from Open-Meteo API (free, no API key required)
 2. Calculates the absolute humidity (moisture content) of outdoor air
 3. Determines what the relative humidity would be if that air is brought indoors and heated/cooled to your target temperature
 4. Provides recommendations based on optimal humidity ranges (30-50% RH)
@@ -50,7 +39,7 @@ The calculator uses psychrometric principles to determine indoor humidity:
 
 ## Usage
 
-1. **Set Your Location**: Click "Use My Location" or enter a ZIP code
+1. **Set Your Location**: Click "Use My Location" or enter a city name/ZIP code
 2. **Adjust Target Temperature**: Use the slider to set your desired indoor temperature
 3. **Toggle Units**: Switch between °F and °C as preferred
 4. **View Results**: See outdoor conditions and predicted indoor humidity
@@ -59,7 +48,7 @@ The calculator uses psychrometric principles to determine indoor humidity:
 ## Technologies Used
 
 - Pure HTML, CSS, and JavaScript (no frameworks required)
-- OpenWeatherMap API for weather data
+- Open-Meteo API for weather data (free, no API key required)
 - Geolocation API for automatic location detection
 - Psychrometric equations for humidity calculations
 

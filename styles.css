@@ -101,20 +101,18 @@ header h1 {
 /* Location Section */
 .location-controls {
     display: flex;
-    flex-direction: column;
     gap: 15px;
     align-items: stretch;
 }
 
-.divider {
-    text-align: center;
-    color: #999;
-    font-weight: 500;
+.location-controls > * {
+    flex: 1;
 }
 
 .zip-input-group {
     display: flex;
     gap: 10px;
+    flex: 1;
 }
 
 .zip-input-group input {
@@ -291,14 +289,74 @@ header h1 {
     font-weight: 700;
     color: #667eea;
     line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.humidity-value.humidity-good {
+    color: #28a745;
+}
+
+.humidity-value.humidity-warning {
+    color: #ffc107;
+}
+
+.humidity-value.humidity-bad {
+    color: #dc3545;
 }
 
 .humidity-value .unit {
     font-size: 2rem;
 }
 
+.humidity-scale {
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.scale-bar {
+    display: flex;
+    height: 30px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.scale-range {
+    flex: 1;
+    transition: opacity 0.3s ease;
+}
+
+.scale-low {
+    background: linear-gradient(to right, #dc3545, #e85563);
+    flex: 0.3; /* 0-30% */
+}
+
+.scale-optimal {
+    background: linear-gradient(to right, #28a745, #48c765);
+    flex: 0.2; /* 30-50% */
+}
+
+.scale-acceptable {
+    background: linear-gradient(to right, #ffc107, #ffcd39);
+    flex: 0.1; /* 50-60% */
+}
+
+.scale-high {
+    background: linear-gradient(to right, #ff6b6b, #dc3545);
+    flex: 0.4; /* 60-100% */
+}
+
+.scale-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 600;
+}
+
 .prediction-text {
-    margin-top: 10px;
+    margin-top: 15px;
     color: #666;
     font-size: 1.1rem;
 }
@@ -401,6 +459,10 @@ footer p {
     
     .humidity-value {
         font-size: 3rem;
+    }
+    
+    .location-controls {
+        flex-direction: column;
     }
     
     .zip-input-group {

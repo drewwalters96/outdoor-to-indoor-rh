@@ -1,6 +1,6 @@
 // Configuration
-const OPENWEATHER_API_KEY = 'YOUR_API_KEY_HERE'; // Users will need to replace this
-const OPENWEATHER_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
+const OPEN_METEO_BASE_URL = 'https://api.open-meteo.com/v1/forecast';
+const GEOCODING_API_URL = 'https://geocoding-api.open-meteo.com/v1/search';
 
 // State
 let isCelsius = false;
@@ -38,14 +38,6 @@ function fahrenheitToCelsius(f) {
 
 function celsiusToFahrenheit(c) {
     return (c * 9 / 5) + 32;
-}
-
-function kelvinToFahrenheit(k) {
-    return (k - 273.15) * 9 / 5 + 32;
-}
-
-function kelvinToCelsius(k) {
-    return k - 273.15;
 }
 
 // Psychrometric Calculations
@@ -158,7 +150,7 @@ async function handleUseZip() {
 async function fetchWeatherByCoords(lat, lon) {
     try {
         const response = await fetch(
-            `${OPENWEATHER_BASE_URL}?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}`
+            `${OPEN_METEO_BASE_URL}?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code&temperature_unit=celsius`
         );
         
         if (!response.ok) {
@@ -166,55 +158,137 @@ async function fetchWeatherByCoords(lat, lon) {
         }
 
         const data = await response.json();
-        processWeatherData(data);
+        
+        // Get location name using reverse geocoding
+        const locationName = await getLocationName(lat, lon);
+        
+        processWeatherData(data, locationName);
     } catch (err) {
         hideLoading();
-        showError('Failed to fetch weather data. Please check your API key configuration.');
+        showError('Failed to fetch weather data. Please try again.');
         console.error(err);
     }
 }
 
 async function fetchWeatherByZip(zip) {
     try {
-        const response = await fetch(
-            `${OPENWEATHER_BASE_URL}?zip=${zip},US&appid=${OPENWEATHER_API_KEY}`
+        // First, geocode the ZIP code to get coordinates
+        const geoResponse = await fetch(
+            `${GEOCODING_API_URL}?name=${zip}&count=1&language=en&format=json`
         );
         
-        if (!response.ok) {
-            throw new Error('Invalid ZIP code or weather data not available');
+        if (!geoResponse.ok) {
+            throw new Error('Invalid ZIP code');
         }
 
-        const data = await response.json();
-        processWeatherData(data);
+        const geoData = await geoResponse.json();
+        
+        if (!geoData.results || geoData.results.length === 0) {
+            throw new Error('Location not found');
+        }
+
+        const { latitude, longitude, name, admin1, country } = geoData.results[0];
+        
+        // Then fetch weather data for those coordinates
+        const weatherResponse = await fetch(
+            `${OPEN_METEO_BASE_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code&temperature_unit=celsius`
+        );
+        
+        if (!weatherResponse.ok) {
+            throw new Error('Weather data not available');
+        }
+
+        const weatherData = await weatherResponse.json();
+        
+        const locationName = `${name}${admin1 ? ', ' + admin1 : ''}${country ? ', ' + country : ''}`;
+        processWeatherData(weatherData, locationName);
     } catch (err) {
         hideLoading();
-        showError('Failed to fetch weather data. Please check the ZIP code and try again.');
+        showError('Failed to fetch weather data. Please check the location and try again.');
         console.error(err);
     }
 }
 
-function processWeatherData(data) {
-    currentWeatherData = data;
+async function getLocationName(lat, lon) {
+    try {
+        // Use reverse geocoding to get location name
+        const response = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?latitude=${lat}&longitude=${lon}&count=1&language=en&format=json`
+        );
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.results && data.results.length > 0) {
+                const { name, admin1, country } = data.results[0];
+                return `${name}${admin1 ? ', ' + admin1 : ''}${country ? ', ' + country : ''}`;
+            }
+        }
+    } catch (err) {
+        console.error('Failed to get location name:', err);
+    }
+    
+    // Fallback to coordinates
+    return `${lat.toFixed(2)}, ${lon.toFixed(2)}`;
+}
+
+function processWeatherData(data, locationName) {
+    currentWeatherData = {
+        temperature: data.current.temperature_2m,
+        humidity: data.current.relative_humidity_2m,
+        weatherCode: data.current.weather_code,
+        location: locationName
+    };
     
     // Update location display
-    locationDisplay.textContent = `📍 ${data.name}${data.sys.country ? ', ' + data.sys.country : ''}`;
+    locationDisplay.textContent = `📍 ${locationName}`;
     locationDisplay.classList.add('active');
     
     hideLoading();
     updateResults();
 }
 
+function getWeatherDescription(code) {
+    // WMO Weather interpretation codes
+    const weatherCodes = {
+        0: 'Clear sky',
+        1: 'Mainly clear',
+        2: 'Partly cloudy',
+        3: 'Overcast',
+        45: 'Foggy',
+        48: 'Depositing rime fog',
+        51: 'Light drizzle',
+        53: 'Moderate drizzle',
+        55: 'Dense drizzle',
+        61: 'Slight rain',
+        63: 'Moderate rain',
+        65: 'Heavy rain',
+        71: 'Slight snow',
+        73: 'Moderate snow',
+        75: 'Heavy snow',
+        77: 'Snow grains',
+        80: 'Slight rain showers',
+        81: 'Moderate rain showers',
+        82: 'Violent rain showers',
+        85: 'Slight snow showers',
+        86: 'Heavy snow showers',
+        95: 'Thunderstorm',
+        96: 'Thunderstorm with slight hail',
+        99: 'Thunderstorm with heavy hail'
+    };
+    
+    return weatherCodes[code] || 'Unknown';
+}
+
 function updateResults() {
     if (!currentWeatherData) return;
 
-    // Extract weather data
-    const tempK = currentWeatherData.main.temp;
-    const humidity = currentWeatherData.main.humidity;
-    const conditions = currentWeatherData.weather[0].description;
+    // Extract weather data (now from Open-Meteo format)
+    const outdoorTempC = currentWeatherData.temperature;
+    const humidity = currentWeatherData.humidity;
+    const weatherCode = currentWeatherData.weatherCode;
 
     // Convert temperatures
-    const outdoorTempF = kelvinToFahrenheit(tempK);
-    const outdoorTempC = kelvinToCelsius(tempK);
+    const outdoorTempF = celsiusToFahrenheit(outdoorTempC);
 
     // Display outdoor conditions
     const displayTemp = isCelsius ? 
@@ -223,8 +297,7 @@ function updateResults() {
     
     document.getElementById('outdoorTemp').textContent = displayTemp;
     document.getElementById('outdoorHumidity').textContent = `${humidity}%`;
-    document.getElementById('conditions').textContent = 
-        conditions.charAt(0).toUpperCase() + conditions.slice(1);
+    document.getElementById('conditions').textContent = getWeatherDescription(weatherCode);
 
     // Calculate indoor RH
     const targetTemp = parseInt(targetTempSlider.value);
@@ -246,6 +319,7 @@ function updateResults() {
 
 function updateRecommendation(indoorRH) {
     const recommendationDiv = document.getElementById('recommendation');
+    const humidityValueDiv = document.querySelector('.humidity-value');
     let message = '';
     let className = '';
 
@@ -265,6 +339,9 @@ function updateRecommendation(indoorRH) {
 
     recommendationDiv.textContent = message;
     recommendationDiv.className = `recommendation ${className}`;
+    
+    // Add color-coding to the humidity value display
+    humidityValueDiv.className = `humidity-value humidity-${className}`;
 }
 
 // UI Helper Functions
@@ -285,10 +362,3 @@ function showError(message) {
 function hideError() {
     error.style.display = 'none';
 }
-
-// Check for API key configuration
-window.addEventListener('DOMContentLoaded', () => {
-    if (OPENWEATHER_API_KEY === 'YOUR_API_KEY_HERE') {
-        showError('⚠️ API Key not configured. Please get a free API key from OpenWeatherMap.org and update the script.js file.');
-    }
-});
