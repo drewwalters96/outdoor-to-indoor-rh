@@ -1,6 +1,7 @@
 // Configuration
 const OPEN_METEO_BASE_URL = 'https://api.open-meteo.com/v1/forecast';
 const GEOCODING_API_URL = 'https://geocoding-api.open-meteo.com/v1/search';
+const REVERSE_GEOCODING_URL = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
 
 // State
 let isCelsius = false;
@@ -159,8 +160,8 @@ async function fetchWeatherByCoords(lat, lon) {
 
         const data = await response.json();
         
-        // Display coordinates as location name
-        const locationName = `${lat.toFixed(4)}°, ${lon.toFixed(4)}°`;
+        // Get city name using reverse geocoding
+        const locationName = await reverseGeocode(lat, lon);
         
         processWeatherData(data, locationName);
     } catch (err) {
@@ -168,6 +169,45 @@ async function fetchWeatherByCoords(lat, lon) {
         showError('Failed to fetch weather data. Please try again.');
         console.error(err);
     }
+}
+
+async function reverseGeocode(lat, lon) {
+    try {
+        const response = await fetch(
+            `${REVERSE_GEOCODING_URL}?latitude=${lat}&longitude=${lon}&localityLanguage=en`
+        );
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            // Build location string from available data
+            const parts = [];
+            
+            if (data.city || data.locality) {
+                parts.push(data.city || data.locality);
+            }
+            
+            if (data.principalSubdivision) {
+                parts.push(data.principalSubdivision);
+            } else if (data.countryCode === 'US' && data.principalSubdivisionCode) {
+                // For US locations, use state code
+                parts.push(data.principalSubdivisionCode.replace('US-', ''));
+            }
+            
+            if (data.countryCode && data.countryCode !== 'US') {
+                parts.push(data.countryCode);
+            }
+            
+            if (parts.length > 0) {
+                return parts.join(', ');
+            }
+        }
+    } catch (err) {
+        console.error('Reverse geocoding failed:', err);
+    }
+    
+    // Fallback to coordinates if reverse geocoding fails
+    return `${lat.toFixed(4)}°, ${lon.toFixed(4)}°`;
 }
 
 async function fetchWeatherByZip(zip) {
