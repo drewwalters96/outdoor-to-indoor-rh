@@ -75,44 +75,31 @@ body {
 .unit-toggle {
     display: flex;
     justify-content: flex-end;
+    gap: 0;
+    background: #e0e0e0;
+    border-radius: 8px;
+    padding: 4px;
 }
 
-.toggle-label {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    background: white;
-    padding: 10px 20px;
-    border-radius: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.toggle-label input[type="checkbox"] {
-    display: none;
-}
-
-.toggle-text {
-    display: flex;
-    gap: 15px;
+.unit-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: #666;
     font-weight: 600;
     font-size: 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s ease;
 }
 
-.toggle-text .fahrenheit {
-    color: #667eea;
+.unit-btn:hover {
+    background: #d0d0d0;
 }
 
-.toggle-text .celsius {
-    color: #999;
-}
-
-.toggle-label input[type="checkbox"]:checked ~ .toggle-text .fahrenheit {
-    color: #999;
-}
-
-.toggle-label input[type="checkbox"]:checked ~ .toggle-text .celsius {
-    color: #667eea;
+.unit-btn.active {
+    background: #667eea;
+    color: white;
 }
 
 /* Location Section */

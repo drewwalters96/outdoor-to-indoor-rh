@@ -8,7 +8,8 @@ let isCelsius = false;
 let currentWeatherData = null;
 
 // DOM Elements
-const unitToggle = document.getElementById('unitToggle');
+const fahrenheitBtn = document.getElementById('fahrenheitBtn');
+const celsiusBtn = document.getElementById('celsiusBtn');
 const useLocationBtn = document.getElementById('useLocationBtn');
 const zipInput = document.getElementById('zipInput');
 const useZipBtn = document.getElementById('useZipBtn');
@@ -21,7 +22,8 @@ const loading = document.getElementById('loading');
 const error = document.getElementById('error');
 
 // Event Listeners
-unitToggle.addEventListener('change', handleUnitToggle);
+fahrenheitBtn.addEventListener('click', () => handleUnitToggle(false));
+celsiusBtn.addEventListener('click', () => handleUnitToggle(true));
 useLocationBtn.addEventListener('click', handleUseLocation);
 useZipBtn.addEventListener('click', handleUseZip);
 zipInput.addEventListener('keypress', (e) => {
@@ -72,8 +74,23 @@ function calculateIndoorRH(outdoorTempC, outdoorRH, indoorTempC) {
 }
 
 // UI Update Functions
-function handleUnitToggle() {
-    isCelsius = unitToggle.checked;
+function handleUnitToggle(toCelsius) {
+    // Don't switch if already on the selected unit
+    if (isCelsius === toCelsius) {
+        return;
+    }
+    
+    isCelsius = toCelsius;
+    
+    // Update button states
+    if (isCelsius) {
+        celsiusBtn.classList.add('active');
+        fahrenheitBtn.classList.remove('active');
+    } else {
+        fahrenheitBtn.classList.add('active');
+        celsiusBtn.classList.remove('active');
+    }
+    
     updateSliderRange();
     updateSliderDisplay();
     if (currentWeatherData) {
