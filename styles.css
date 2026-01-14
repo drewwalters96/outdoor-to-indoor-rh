@@ -159,14 +159,14 @@ body {
 }
 
 .btn-secondary {
-    background: #764ba2;
+    background: #667eea;
     color: white;
 }
 
 .btn-secondary:hover {
-    background: #63408a;
+    background: #5568d3;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(118, 75, 162, 0.4);
+    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
 }
 
 .btn:disabled {
