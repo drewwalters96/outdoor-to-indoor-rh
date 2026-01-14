@@ -340,11 +340,7 @@ function updateResults() {
         `${outdoorTempC.toFixed(1)}°C` : 
         `${outdoorTempF.toFixed(1)}°F`;
     
-    // Display indoor target temperature
-    const indoorDisplayTemp = `${targetTemp}${isCelsius ? '°C' : '°F'}`;
-    
     document.getElementById('outdoorTemp').textContent = outdoorDisplayTemp;
-    document.getElementById('indoorTempDisplay').textContent = indoorDisplayTemp;
     document.getElementById('outdoorHumidity').textContent = `${humidity}%`;
     document.getElementById('conditions').textContent = getWeatherDescription(weatherCode);
 

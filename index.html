@@ -8,14 +8,14 @@
 </head>
 <body>
     <div class="container">
-        <header class="page-header">
-            <h1>🪟 Can I Open My Windows Today?</h1>
-            <p class="subtitle">Find out if opening your windows will improve indoor humidity</p>
-        </header>
-
         <main>
             <!-- Single Unified Card -->
             <section class="app-card">
+                <header class="app-header">
+                    <h1>🪟 Can I Open My Windows Today?</h1>
+                    <p class="subtitle">Find out if opening your windows will improve indoor humidity</p>
+                </header>
+
                 <!-- Location Section -->
                 <div class="section-content">
                     <h2>Location</h2>
@@ -64,31 +64,29 @@
                 </div>
 
                 <!-- Results Section -->
-                <div class="section-content" id="resultsSection" style="display: none;">
-                    <div class="results-grid">
+                <div class="section-content results-section" id="resultsSection" style="display: none;">
+                    <div class="outdoor-conditions">
                         <div class="result-box">
                             <div class="result-label">Outdoor Temperature</div>
                             <div class="result-value" id="outdoorTemp">--</div>
                         </div>
                         
                         <div class="result-box">
-                            <div class="result-label">Your Indoor Temperature</div>
-                            <div class="result-value" id="indoorTempDisplay">--</div>
+                            <div class="result-label">Outdoor Humidity</div>
+                            <div class="result-value" id="outdoorHumidity">--</div>
                         </div>
-                        
-                        <div class="result-box">
-                            <div class="result-label">Expected Indoor Humidity</div>
-                            <div class="result-value-large" id="indoorRH">--</div>
+                    </div>
+                    
+                    <div class="indoor-prediction">
+                        <div class="prediction-label">Expected Indoor Humidity After Opening Windows</div>
+                        <div class="prediction-value">
+                            <span id="indoorRH">--</span><span class="unit">%</span>
                         </div>
                     </div>
                     
                     <div id="recommendation" class="recommendation"></div>
                     
                     <div class="additional-info">
-                        <div class="info-item">
-                            <span class="info-label">Outdoor Humidity:</span>
-                            <span id="outdoorHumidity" class="info-value">--</span>
-                        </div>
                         <div class="info-item">
                             <span class="info-label">Conditions:</span>
                             <span id="conditions" class="info-value">--</span>
