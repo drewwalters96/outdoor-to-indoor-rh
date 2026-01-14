@@ -262,7 +262,7 @@ async function reverseGeocode(lat, lon) {
 async function fetchWeatherByZip(location) {
     try {
         // Use geocoding API to search for the location
-        // Handles city names, ZIP codes, and combinations like "London, UK" or "St. Louis, MO"
+        // Handles city names, ZIP codes, and combinations like "London, UK" or "New York, NY"
         const geoResponse = await fetch(
             `${GEOCODING_API_URL}?name=${encodeURIComponent(location)}&count=1&language=en&format=json`
         );
@@ -294,7 +294,7 @@ async function fetchWeatherByZip(location) {
         processWeatherData(weatherData, locationName);
     } catch (err) {
         hideLoading();
-        showError('Location not found. Please try a different location (e.g., "London", "London, UK", "St. Louis, MO", or a ZIP code).');
+        showError('Location not found. Please try a different location (e.g., "London", "London, UK", "New York, NY", or a ZIP code).');
         console.error(err);
     }
 }
