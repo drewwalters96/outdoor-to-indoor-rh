@@ -18,6 +18,24 @@ body {
     padding: 20px;
 }
 
+/* Page Header */
+.page-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.page-header .subtitle {
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
 /* Unified App Card */
 .app-card {
     background: white;
@@ -25,24 +43,6 @@ body {
     padding: 0;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-}
-
-.app-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 40px 30px;
-    text-align: center;
-}
-
-.app-header h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.app-header .subtitle {
-    font-size: 1rem;
-    opacity: 0.95;
 }
 
 .section-content {
@@ -55,7 +55,7 @@ body {
 }
 
 .section-content h2 {
-    color: #667eea;
+    color: #000;
     margin-bottom: 20px;
     font-size: 1.3rem;
 }
