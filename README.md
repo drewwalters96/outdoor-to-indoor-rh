@@ -14,13 +14,7 @@ Can I open my windows today? This simple web application helps you determine wha
 
 ## Setup
 
-**No configuration required!** Simply open `index.html` in a web browser.
-
-For local development, you can use a simple HTTP server:
-```bash
-python -m http.server 8000
-# Then visit http://localhost:8000
-```
+**No setup required!** Simply open `index.html` in any modern web browser.
 
 ## How It Works
 
