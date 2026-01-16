@@ -179,16 +179,16 @@ async function handleUseLocation() {
 }
 
 async function handleUseZip() {
-    const zip = zipInput.value.trim();
-    if (!zip) {
-        showError('Please enter a ZIP code');
+    const location = zipInput.value.trim();
+    if (!location) {
+        showError('Please enter a city name or ZIP code');
         return;
     }
 
     showLoading();
     hideError();
 
-    await fetchWeatherByZip(zip);
+    await fetchWeatherByZip(location);
 }
 
 // Weather API Functions
@@ -259,12 +259,12 @@ async function reverseGeocode(lat, lon) {
     return `${lat.toFixed(4)}°, ${lon.toFixed(4)}°`;
 }
 
-async function fetchWeatherByZip(zip) {
+async function fetchWeatherByZip(location) {
     try {
         // Use geocoding API to search for the location
-        // Works best with city names, but can handle some postal codes
+        // Handles city names, ZIP codes, and combinations like "London, UK" or "New York, NY"
         const geoResponse = await fetch(
-            `${GEOCODING_API_URL}?name=${encodeURIComponent(zip)}&count=1&language=en&format=json`
+            `${GEOCODING_API_URL}?name=${encodeURIComponent(location)}&count=1&language=en&format=json`
         );
         
         if (!geoResponse.ok) {
@@ -294,7 +294,7 @@ async function fetchWeatherByZip(zip) {
         processWeatherData(weatherData, locationName);
     } catch (err) {
         hideLoading();
-        showError('Location not found. Please try a different city name or use your current location.');
+        showError('Location not found. Please try a different location (e.g., "London", "London, UK", "New York, NY", or a ZIP code).');
         console.error(err);
     }
 }
