@@ -115,7 +115,7 @@ body {
 
 /* Location Section */
 .location-section {
-    padding: 30px !important;
+    padding: 30px;
 }
 
 .location-buttons {
@@ -483,31 +483,49 @@ footer p {
 
 /* Responsive Design */
 @media (max-width: 600px) {
-    header h1 {
-        font-size: 1.8rem;
+    body {
+        padding: 10px;
     }
     
-    .subtitle {
-        font-size: 1rem;
+    .container {
+        padding: 10px;
     }
     
-    .card {
+    /* Header adjustments for mobile */
+    .app-header {
         padding: 20px;
     }
     
-    .weather-grid {
-        grid-template-columns: 1fr;
+    .app-header h1 {
+        font-size: 1.25rem;
+        margin-bottom: 8px;
     }
     
-    .humidity-value {
-        font-size: 3rem;
+    .app-header .subtitle {
+        font-size: 0.85rem;
     }
     
-    .location-controls {
-        flex-direction: column;
+    /* Section content padding reduction */
+    .section-content {
+        padding: 20px;
     }
     
-    .zip-input-group {
-        flex-direction: column;
+    .location-section {
+        padding: 20px;
+    }
+    
+    /* Temperature display reduction */
+    .temp-display {
+        font-size: 1.15rem;
+    }
+    
+    .temp-header h2 {
+        font-size: 0.95rem;
+    }
+    
+    /* Ensure buttons are same size */
+    .location-mode-btn {
+        padding: 12px 16px;
+        font-size: 0.95rem;
     }
 }
